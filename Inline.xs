@@ -19,7 +19,7 @@ pp_reftype (pTHX)
   if (!sv || !SvROK(sv))
 	RETPUSHNO;
 
-  pv = sv_reftype(SvRV(sv),TRUE);
+  pv = sv_reftype(SvRV(sv),FALSE);
   PUSHp(pv, strlen(pv));
   RETURN;
 }
