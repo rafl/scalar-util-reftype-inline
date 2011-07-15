@@ -30,9 +30,11 @@ ck_reftype (pTHX_ OP *op, GV *namegv, SV *o)
   OP *args;
   args = cUNOPx(ck_entersub_args_list(op))->op_first;
   if(!args->op_sibling) args = cUNOPx(args)->op_first;
+  op_free(args->op_sibling->op_sibling);
   args->op_sibling->op_sibling = NULL;
-//  op_free(op);
-  op = newUNOP(OP_NULL, 0, args);
+  op = newUNOP(OP_NULL, 0, args->op_sibling);
+  args->op_sibling = NULL;
+  op_free(args);
   op->op_type = OP_RAND;
   op->op_ppaddr = pp_reftype;
   return op;
